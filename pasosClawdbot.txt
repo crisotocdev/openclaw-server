@@ -1,0 +1,75 @@
+========================================
+📘 CLAWDBOT – ROADMAP OFICIAL (Rust + Mobile)
+========================================
+
+🔹 PASO 2 — Elegir siguiente etapa
+
+Elegir UNA:
+
+A) Crear cliente (CLI o web)
+B) Seguridad avanzada
+C) Base de datos
+
+🔹 PASO 3A — Si se elige CLIENTE
+
+Crear app CLI simple en Rust o Node
+
+Enviar POST a /cmd
+
+Mostrar respuesta formateada
+
+Configurar token en archivo local
+
+Resultado:
+
+Controlar Clawdbot sin usar PowerShell
+
+🔹 PASO 3B — Si se elige SEGURIDAD
+
+Rate limit por IP
+
+Timeout real en ejecución de comandos
+
+Tokens desde archivo .env
+
+Rotación de tokens
+
+Resultado:
+
+Backend más resistente
+
+🔹 PASO 3C — Si se elige BASE DE DATOS
+
+Usar SQLite
+
+Tabla comandos ejecutados
+
+Tabla usuarios
+
+Tabla notas
+
+Resultado:
+
+Clawdbot persistente
+
+🔹 PASO 4 — Documentación
+
+README.md con:
+
+Instalación
+
+Variables de entorno
+
+Ejemplos curl / PowerShell
+
+Comandos soportados
+
+🔹 PASO 5 — Portfolio
+
+Limpiar repo
+
+Capturas de pantalla
+
+Descripción del proyecto
+
+Subir a GitHub
