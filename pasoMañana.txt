@@ -1,7 +1,46 @@
-Próximo objetivo (para mañana)
+🧭 Roadmap corto (guárdalo en tu bloc de notas)
+FASE 1 — App móvil
 
-Guardar token automáticamente en ~/.moltbot/token.txt
+Crear app Expo
 
-Que el cliente lo lea solo (sin usar env)
+Pantalla Login (guardar token)
 
-Empezar estructura base para React Native
+Pantalla Home
+
+Botón whoami
+
+Campo comando → ejecutar
+
+FASE 2 — Conectividad
+
+Instalar Tailscale en notebook
+
+Instalar Tailscale en celular
+
+MOLTBOT_API apuntando a IP Tailscale
+
+FASE 3 — Jobs
+
+Endpoint /jobs
+
+Estado y logs de tareas
+
+FASE 4 — IA local
+
+Instalar Ollama
+
+Endpoint /ai/chat
+
+Comandos con IA
+
+😴 Recomendación
+
+Para aquí por hoy. Guardaste avance crítico y todo quedó estable.
+
+Mañana partimos directo con:
+
+👉 Crear app Expo
+
+Cuando vuelvas me dices:
+
+“Partimos con la app móvil”

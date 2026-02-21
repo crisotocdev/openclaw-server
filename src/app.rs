@@ -8,17 +8,25 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use std::panic::{catch_unwind, AssertUnwindSafe};
+use tower_http::cors::{Any, CorsLayer};
+use axum::http::{header, Method};
 
 use crate::{auth, commands, logger};
 
 pub fn build_router() -> Router {
+    let cors = CorsLayer::new()
+        .allow_origin(Any) // para desarrollo
+        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+        .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION]);
+
     Router::new()
         .route("/ping", get(ping))
         .route("/help", get(help))
         .route("/status", get(status))
         .route("/login", post(login))
-        .route("/auth/verify", post(verify_token)) // 👈 NUEVO
+        .route("/auth/verify", post(verify_token))
         .route("/cmd", post(cmd))
+        .layer(cors)
 }
 
 // ---------- HANDLERS ----------
