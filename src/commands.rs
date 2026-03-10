@@ -34,6 +34,40 @@ pub fn handle_message(role: Rol, msg: &str) -> (bool, String) {
         "SYSINFO" => (true, powershell::ejecutar("SYSINFO")),
 
         // =========================
+        // INFO / INTERNOS
+        // =========================
+        "VERSION" => (
+            true,
+            format!("MOLTBOT_VERSION {}", env!("CARGO_PKG_VERSION")),
+        ),
+
+        "STATUS" => (
+            true,
+            format!(
+                "SERVER ONLINE\nVERSION {}\nUPTIME TEMP",
+                env!("CARGO_PKG_VERSION")
+            ),
+        ),
+
+        "HELP" => (
+            true,
+            [
+                "PING",
+                "TIME",
+                "PROCESOS",
+                "WHOAMI",
+                "SYSINFO",
+                "STATUS",
+                "HELP",
+                "NOTA",
+                "VSCODE",
+                "CHROME",
+                "PS",
+            ]
+            .join("\n"),
+        ),
+
+        // =========================
         // ADMIN ONLY
         // =========================
         "NOTA" => {
