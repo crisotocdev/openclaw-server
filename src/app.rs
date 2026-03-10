@@ -5,15 +5,21 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
+use axum::http::{header, Method};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::sync::OnceLock;
+use std::time::Instant;
 use tower_http::cors::{Any, CorsLayer};
-use axum::http::{header, Method};
 
 use crate::{auth, commands, logger};
 
+static STARTED_AT: OnceLock<Instant> = OnceLock::new();
+
 pub fn build_router() -> Router {
+    STARTED_AT.get_or_init(Instant::now);
+
     let cors = CorsLayer::new()
         .allow_origin(Any) // para desarrollo
         .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
@@ -80,7 +86,6 @@ async fn verify_token(
     ConnectInfo(addr): ConnectInfo<SocketAddr>,
     Json(payload): Json<VerifyTokenRequest>,
 ) -> impl IntoResponse {
-
     println!("VERIFY: entro a verify_token");
     println!("VERIFY: token len={}", payload.token.len());
 
@@ -233,7 +238,10 @@ async fn cmd(
     let argument = parts.next().unwrap_or("").to_string();
 
     // 3) Ejecutar comando (sin token embebido)
-    let result = catch_unwind(AssertUnwindSafe(|| commands::handle_message(role, msg)));
+    let started_at = *STARTED_AT.get_or_init(Instant::now);
+    let result = catch_unwind(AssertUnwindSafe(|| {
+        commands::handle_message(role, msg, started_at)
+    }));
 
     let (ok, response) = match result {
         Ok((ok, resp)) => (ok, resp),
@@ -282,18 +290,22 @@ async fn help() -> Json<HelpResponse> {
             "GET /help",
             "GET /status",
             "POST /login",
+            "POST /auth/verify",
             "POST /cmd",
         ],
         commands: vec![
             "PING",
-            "NOTA",
-            "VSCODE",
-            "CHROME",
-            "PS <ACCION>",
             "TIME",
             "PROCESOS",
             "WHOAMI",
             "SYSINFO",
+            "STATUS",
+            "HELP",
+            "VERSION",
+            "NOTA",
+            "VSCODE",
+            "CHROME",
+            "PS <ACCION>",
         ],
         format: r#"POST /cmd JSON: { "token": "...", "message": "PING" }"#,
     })

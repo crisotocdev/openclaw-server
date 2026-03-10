@@ -1,9 +1,20 @@
 use std::process::Command;
+use std::time::Instant;
 
 use crate::auth::Rol;
 use crate::powershell;
 
-pub fn handle_message(role: Rol, msg: &str) -> (bool, String) {
+fn format_uptime(started_at: Instant) -> String {
+    let secs = started_at.elapsed().as_secs();
+
+    let hours = secs / 3600;
+    let minutes = (secs % 3600) / 60;
+    let seconds = secs % 60;
+
+    format!("{:02}:{:02}:{:02}", hours, minutes, seconds)
+}
+
+pub fn handle_message(role: Rol, msg: &str, started_at: Instant) -> (bool, String) {
     let msg = msg.trim();
 
     if msg.is_empty() {
@@ -44,8 +55,9 @@ pub fn handle_message(role: Rol, msg: &str) -> (bool, String) {
         "STATUS" => (
             true,
             format!(
-                "SERVER ONLINE\nVERSION {}\nUPTIME TEMP",
-                env!("CARGO_PKG_VERSION")
+                "SERVER ONLINE\nVERSION {}\nUPTIME {}",
+                env!("CARGO_PKG_VERSION"),
+                format_uptime(started_at)
             ),
         ),
 
@@ -59,6 +71,7 @@ pub fn handle_message(role: Rol, msg: &str) -> (bool, String) {
                 "SYSINFO",
                 "STATUS",
                 "HELP",
+                "VERSION",
                 "NOTA",
                 "VSCODE",
                 "CHROME",
